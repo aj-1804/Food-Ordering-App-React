@@ -41,12 +41,16 @@
     cursor: pointer;
 }
 
-.search {
-    padding: 10px;
-}
-
 .res-card .res-logo {
     height: 40%;
     width: 100%;
     object-fit: cover;
+}
+
+.filter-btn {
+    margin: 10px;
+}
+
+.filter-btn:hover {
+    cursor: pointer;
 }
