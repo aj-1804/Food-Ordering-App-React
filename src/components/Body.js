@@ -50,7 +50,7 @@ const Body = () => {
     ) : (
         <div className="body">
             <div className="filter">
-                <div className="search">
+                <div className="search m-4 p-4">
                     <input
                         type="text"
                         className="search-box"
