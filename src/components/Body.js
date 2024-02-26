@@ -80,7 +80,7 @@ const Body = () => {
                         className="px-4 py-2 bg-gray-100 rounded-md"
                         onClick={() => {
                             let filteredList = listOfRestaurants.filter(
-                                (res) => res.info.avgRating > 4.2
+                                (res) => res.info.avgRating > 4.3
                             );
                             setListOfRestaurants(filteredList);
                         }}
@@ -90,7 +90,7 @@ const Body = () => {
                 </div>
             </div>
             <div className="flex flex-wrap justify-around">
-                {filteredRestaurants.map((restaurant) => (
+                {listOfRestaurants.map((restaurant) => (
                     <Link
                         key={restaurant.info.id}
                         to={"/restaurants/" + restaurant.info.id}
