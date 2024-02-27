@@ -1,17 +1,22 @@
-import RestaurantCard from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import RestaurantCard, { withOpenLabel } from "./RestaurantCard";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [listOfRestaurants, setListOfRestaurants] = useState([]);
     const [searchText, SetSearchText] = useState("");
 
+    const RestaurantCardOpen = withOpenLabel(RestaurantCard);
+
     useEffect(() => {
         fetchData();
     }, []);
+
+    console.log(listOfRestaurants);
 
     const fetchData = async () => {
         const data = await fetch(
@@ -19,7 +24,7 @@ const Body = () => {
         );
 
         const json = await data.json();
-        console.log(json);
+        // console.log(json);
 
         setListOfRestaurants(
             json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
@@ -44,6 +49,8 @@ const Body = () => {
                 Looks like you're offline! Please check your internet connection
             </h1>
         );
+
+    const { loggedInUser, setUserName } = useContext(UserContext);
 
     return listOfRestaurants.length === 0 ? (
         <Shimmer />
@@ -88,14 +95,26 @@ const Body = () => {
                         Top Rated Restaurants
                     </button>
                 </div>
+                <div className="m-4 p-4 flex items-center">
+                    <label className="mr-2">UserName</label>
+                    <input
+                        className="border border-black px-2"
+                        value={loggedInUser}
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                </div>
             </div>
-            <div className="flex flex-wrap justify-around">
+            <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
                 {listOfRestaurants.map((restaurant) => (
                     <Link
                         key={restaurant.info.id}
                         to={"/restaurants/" + restaurant.info.id}
                     >
-                        <RestaurantCard resData={restaurant} />
+                        {restaurant.info.isOpen ? (
+                            <RestaurantCardOpen resData={restaurant} />
+                        ) : (
+                            <RestaurantCard resData={restaurant} />
+                        )}
                     </Link>
                 ))}
             </div>
